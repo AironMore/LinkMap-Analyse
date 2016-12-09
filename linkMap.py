@@ -88,7 +88,6 @@ class SymbolReader(object):
 		objs=self.readObjectFrom()
 		symbols=self.readSymbolsInfoFrom()
 		tsum=0
-		# outFile=open(os.getcwd()+"/result.txt",'w')
 		tempArr = []
 		for key in sorted(symbols.keys()):
 			item=symbols[key]
@@ -99,10 +98,6 @@ class SymbolReader(object):
 			objNameSplited=objs[key].split(os.sep)
 			linkfile = linkFile(objNameSplited[len(objNameSplited)-1], sum, 0)
 			tempArr.append(linkfile)
-			# print("%s size: %d" %(linkfile.name,linkfile.size))
-			# text = "Name: "+objNameSplited[len(objNameSplited)-1]+"/*****/Size: "+str(sum)+"\n"
-			# outFile.write(text)
-		# outFile.write("all linked size:"+str(tsum))
 		print "linkMap analyze has Done!"
 		return tempArr
 
@@ -110,8 +105,6 @@ def analyzeLinkMap(dir):
 	if os.path.isfile(dir) == True:
 		reader=SymbolReader(dir)
 		fileArr = reader.generateObjSizeDetail()
-		# for linkfile in fileArr:
-		# 	print linkfile.name + "======" + str(linkfile.size)
 		return fileArr
 	else:
 		print "should config linkmap path"
@@ -294,7 +287,6 @@ def getTheReport(oldArr, newArr, startStrArr, fileName, moduleName):
 	oldAirArr = getTheArr(oldArr, startStrArr)
 	newAirArr = getTheArr(newArr, startStrArr)
 	fileName = os.path.split(os.path.realpath(__file__))[0] + '/LinkMapOutPut/' + fileName #脚本所在位置的目录
-	#fileName = '/Users/server/Desktop/linkMapTest/' + '/LinkMapOutPut/' + fileName  #服务器上写死的地址
 	resultStr = diffArray(oldAirArr, newAirArr, fileName, moduleName)
 	return resultStr
 
@@ -322,7 +314,7 @@ if __name__=='__main__':
 	if not os.path.isfile(oldDir):
 		print 'No valid old File'
 		if os.path.isfile(newDir) :
-			shutil.move(newDir,'/Users/server/Desktop/linkMapTest/new/TuNiuApp-LinkMap-normal' + cpuTypeSTr + '.txt') #将新的linkMap文件放入旧的中，替换掉（用来自动化执行）
+			# shutil.move(newDir,'' + cpuTypeSTr + '.txt') #将新的linkMap文件放入旧的中，替换掉（用来自动化执行）
 			print 'had moved New Dir 2 Old Dir'
 		sys.exit(0)
 
@@ -349,47 +341,7 @@ if __name__=='__main__':
 
 			resultStrArr.append(getTheReport(oldArr, newArr, startStrArr, nameStr + cpuTypeSTr + '.xlsx', nameStr))
 
-	# totalStrArr = ['']
-	# resultStrArr.append(getTheReport(oldArr, newArr, totalStrArr, 'totalLinkMap' + cpuTypeSTr + '.xlsx', 'total'))
-	#
-	# airPlaneStartStrArr = ['TNGAirplane', 'TNAirplane', 'TNIntlFlightTicket']
-	# resultStrArr.append(getTheReport(oldArr, newArr, airPlaneStartStrArr, 'airplaneLinkMap' + cpuTypeSTr + '.xlsx', 'airPlane'))
-	#
-	# trainStartStrArr = ['TNTrain']
-	# resultStrArr.append(getTheReport(oldArr, newArr, trainStartStrArr, 'trainLinkMap' + cpuTypeSTr + '.xlsx', 'train'))
-	#
-	# hotelStartStrArr = ['TNHotel', 'TNGHotel']
-	# resultStrArr.append(getTheReport(oldArr, newArr, hotelStartStrArr, 'hotelLinkMap' + cpuTypeSTr + '.xlsx', 'hotel'))
-	#
-	# onlineBookStartStrArr = ['TNOB']
-	# resultStrArr.append(getTheReport(oldArr, newArr, onlineBookStartStrArr, 'onlineBookLinkMap' + cpuTypeSTr + '.xlsx', 'onlineBook'))
-	#
-	# wifiStartStrArr = ['TNWifi']
-	# resultStrArr.append(getTheReport(oldArr, newArr, wifiStartStrArr, 'wifiLinkMap' + cpuTypeSTr + '.xlsx', 'wifi'))
-	#
-	# chatStartStrArr = ['TNChat']
-	# resultStrArr.append(getTheReport(oldArr, newArr, chatStartStrArr, 'chatLinkMap' + cpuTypeSTr + '.xlsx', 'chat'))
-	#
-	# discoveryStartStrArr = ['TNCommunity', 'TNDiscovery','TNDC','TNTrip','TNCPersional','TNTravelTogether']  #发现
-	# resultStrArr.append(getTheReport(oldArr, newArr, discoveryStartStrArr, 'discoveryLinkMap' + cpuTypeSTr + '.xlsx', 'discovery'))
-	#
-	# useCarStartStrArr = ['TNCar']  #用车
-	# resultStrArr.append(getTheReport(oldArr, newArr, useCarStartStrArr, 'useCarLinkMap' + cpuTypeSTr + '.xlsx', 'useCar'))
-	#
-	# cruiseShipStartStrArr = ['TNCruiseShip']  #邮轮
-	# resultStrArr.append(getTheReport(oldArr, newArr, cruiseShipStartStrArr, 'cruiseShipLinkMap' + cpuTypeSTr + '.xlsx', 'cruiseShip'))
-	#
-	# superStartStrArr = ['TNSuper']  #超级自由行
-	# resultStrArr.append(getTheReport(oldArr, newArr, superStartStrArr, 'superLinkMap' + cpuTypeSTr + '.xlsx', 'super'))
-	#
-	# diyStrArr = ['TNBoss3DIY']  #BOSS3自由行.xlsx', 'total'
-	# resultStrArr.append(getTheReport(oldArr, newArr, diyStrArr, 'boss3DiyLinkMap' + cpuTypeSTr + '.xlsx', 'diy'))
-	#
-	# payStrArr = ['TFPay']  #金融
-	# resultStrArr.append(getTheReport(oldArr, newArr, payStrArr, 'payinkMap' + cpuTypeSTr + '.xlsx', 'pay'))
-
 	f = open(os.path.split(os.path.realpath(__file__))[0] + '/LinkMapOutPut/' + cpuTypeSTr + '.txt','w')
-    #f = open('/Users/server/Desktop/linkMapTest/LinkMapOutPut/' + cpuTypeSTr + '.txt','w')
 	for resultStr in resultStrArr:
 		print resultStr
 		f.write(resultStr + '\n')
